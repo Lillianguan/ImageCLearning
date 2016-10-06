@@ -17,6 +17,7 @@ public:
 	void imagedatastructure() const;
     void salt(int n);
 	void colorReduce(int div) const;
+	void colorReduceIterator(int div);
 
 private:
 	static ImageOperations* inst_;

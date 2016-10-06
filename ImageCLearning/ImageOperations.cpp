@@ -6,6 +6,8 @@ ImageOperations* ImageOperations::inst_ = nullptr;
 
 ImageOperations::ImageOperations(void)
 {
+	i=0;
+	j=0;
 }
 
 
@@ -117,6 +119,7 @@ void ImageOperations::imagedatastructure() const
 
 void ImageOperations::salt(int n)
 {
+	cout << i << j << endl;
 	Mat image = myimg.clone();
 	for (int k = 0; k < n; k++)
 	{
@@ -144,16 +147,16 @@ void ImageOperations::salt(int n)
 
 void ImageOperations::colorReduce(int div) const
 {
-	Mat image=myimg.clone();
+	Mat image = myimg.clone();
 	int nl = image.rows;//number of lines 
 	//total number of elements per line 
 	int nc = image.cols * image.channels();
-	if(image.isContinuous())
+	if (image.isContinuous())
 	{
 		//then no padded pixels
-		nc=nc*nl;
-		nl=1;
-		cout<<"This image is continous!!"<<endl;
+		nc = nc * nl;
+		nl = 1;
+		cout << "This image is continous!!" << endl;
 	}//this loop is executed only once 
 	//in case of continous images
 	for (int j = 0; j < nl; j++)
@@ -170,6 +173,44 @@ void ImageOperations::colorReduce(int div) const
 	imshow("Image", image);
 	waitKey(0);
 }
+
+void ImageOperations::colorReduceIterator(int div)
+{
+	//obtain iterator at initial position 
+	MatIterator_<Vec3b> it = myimg.begin<Vec3b>();
+	//obtain end position 
+	MatIterator_<Vec3b> itend = myimg.end<Vec3b>();
+	//loop over all pixel------------
+
+	//for (; it != itend; ++it)
+	//{
+	//	//process each pixel-------
+	//	(*it)[0] = (*it)[0] / div * div + div / 2;
+	//	(*it)[1] = (*it)[1] / div * div + div / 2;
+	//	(*it)[2] = (*it)[2] / div * div + div / 2;
+	//	// end of pixel processing-------
+	//}
+
+	//or
+	while (it != itend)
+	{
+		//process each pixel 
+		(*it)[0] = (*it)[0] / div * div + div / 2;
+		(*it)[1] = (*it)[1] / div * div + div / 2;
+		(*it)[2] = (*it)[2] / div * div + div / 2;
+		//end of pixel processing 
+
+		//++it;
+
+		//or
+		it += 5;
+	}
+
+	imshow("Image", myimg);
+	waitKey(0);
+}
+
+
 
 Mat ImageOperations::function()
 {
