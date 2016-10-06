@@ -13,10 +13,10 @@ public:
 	ImageOperations(void);
 	~ImageOperations(void);
 	static ImageOperations* getInstance();
-	void loadimage(string path);
+    void loadimage(string path);
 	void imagedatastructure() const;
-	void salt( int n);
-
+    void salt(int n);
+	void colorReduce(int div) const;
 
 private:
 	static ImageOperations* inst_;
