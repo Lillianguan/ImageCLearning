@@ -17,7 +17,7 @@ int _tmain()
 	myimageoperations->colorReduceIterator(2000);
 
 
-	//elapsed tion in seconds
+	//elapsed time in seconds
 	double duration = (getTickCount() - start) / getTickFrequency();
 	cout << "Program runtime :" << duration <<"s"<< endl;
 	cin.get();
