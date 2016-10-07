@@ -18,6 +18,8 @@ public:
     void salt(int n);
 	void colorReduce(int div) const;
 	void colorReduceIterator(int div);
+	void sharpen();
+	void sharpen2D() const;
 
 private:
 	static ImageOperations* inst_;

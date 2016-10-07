@@ -94,13 +94,13 @@ void ImageOperations::imagedatastructure() const
 	//waitKey(0);
 
 	//read the image in gray scale
-	image1 = imread("C:\\Users\\Cailin\\Pictures\\IMG_0427.JPG", CV_LOAD_IMAGE_GRAYSCALE);
+	image1 = imread("IMG_0427.JPG", CV_LOAD_IMAGE_GRAYSCALE);
 	image1.convertTo(image2,CV_32F, 1 / 255.0, 0.0);
 
 	imshow("Image", image2);
 	//waitKey(0);
 
-	Ptr<IplImage> iplimage = cvLoadImage("C:\\Users\\Cailin\\Pictures\\logo.jpg", 1);
+	Ptr<IplImage> iplimage = cvLoadImage("logo.jpg", 1);
 	Mat logoimg(iplimage, false);
 
 	//define image ROI at image bottom-right
@@ -210,7 +210,51 @@ void ImageOperations::colorReduceIterator(int div)
 	waitKey(0);
 }
 
+void ImageOperations::sharpen()
+{
+	Mat result;
+	//allocate if necessary
+	result.create(myimg.size(), myimg.type());
+	int nchannels = myimg.channels(); // get the number of channels 
 
+	//for all rows (except first and last)
+	for (int j = 1; j < myimg.rows - 1; j++)
+	{
+		const uchar* previous = myimg.ptr<const uchar>(j - 1); //previous row
+		const uchar* current = myimg.ptr<const uchar>(j); //current row
+		const uchar* next = myimg.ptr<const uchar>(j + 1); //next row
+		uchar* output = result.ptr<uchar>(j); //output row
+		for (int i = nchannels; i < (myimg.cols - 1) * nchannels; i++)
+		{
+			*output++ = saturate_cast<uchar>(5 * current[i] - current[i - nchannels] - current[i + nchannels] - previous[i] - next[i]);
+		}
+	}
+	//set the unprocessed pixels to 0;
+	result.row(0).setTo(Scalar(0));
+	result.row(result.rows - 1).setTo(Scalar(0));
+	result.col(0).setTo(Scalar(0));
+	result.col(result.cols - 1).setTo(Scalar(0));
+	imshow("Image", result);
+	waitKey(0);
+}
+
+void ImageOperations::sharpen2D() const
+{
+	Mat result;
+	//Construct kernel (all entries initializd to 0)
+	Mat kernel(3, 3, CV_32F, Scalar(0));
+	//assigns kernel values 
+	kernel.at<float>(1, 1) = 10.0;
+	kernel.at<float>(0, 1) = -1;
+	kernel.at<float>(2, 1) = -1;
+	kernel.at<float>(1, 0) = -1;
+	kernel.at<float>(1, 2) = -1;
+
+	//filter the image 
+	filter2D(myimg, result, myimg.depth(), kernel);
+	imshow("Image", result);
+	waitKey(0);
+}
 
 Mat ImageOperations::function()
 {

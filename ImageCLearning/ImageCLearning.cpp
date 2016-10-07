@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ImageOperations.h"
 
-static string path = "C:\\Users\\Cailin\\Pictures\\IMG_0427.JPG";
+static string path = "IMG_0427.JPG";
 
 int _tmain()
 {
@@ -14,7 +14,9 @@ int _tmain()
 	//myimageoperations->imagedatastructure();
 	//myimageoperations->salt(20000);
 	//myimageoperations->colorReduce(64);
-	myimageoperations->colorReduceIterator(2000);
+	//myimageoperations->colorReduceIterator(2000);
+	//myimageoperations->sharpen();
+	myimageoperations->sharpen2D();
 
 
 	//elapsed time in seconds
