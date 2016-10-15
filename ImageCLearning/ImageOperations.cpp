@@ -255,6 +255,29 @@ void ImageOperations::sharpen2D() const
 	imshow("Image", result);
 	waitKey(0);
 }
+//remaping an image by creating wave effects
+void ImageOperations::wave() const
+{
+	// the map function 
+	Mat inputimage=myimg.clone();
+	Mat outputimage;
+	Mat srcX(inputimage.rows,inputimage.cols,CV_32F);
+	Mat srcY(inputimage.rows,inputimage.cols,CV_32F);
+	//creating the mapping 
+	for(int i=0;i<inputimage.rows;i++)
+		for (int j=0;j<inputimage.cols ;j++)
+		{
+			//new location of pixel at (i,j)
+			srcX.at<float>(i, j) = j; //remain the same column pixels originally on row i are now moved fllowing a sinusoid
+			srcY.at<float>(i, j) = i + 5 * sin(j/10.0);
+
+		}
+	// applaying the mapping 
+	remap(inputimage, outputimage, srcX, srcY, INTER_LINEAR);
+	namedWindow("Result", CV_WINDOW_NORMAL);
+	imshow("Result",outputimage);
+	waitKey(0);
+}
 
 Mat ImageOperations::function()
 {

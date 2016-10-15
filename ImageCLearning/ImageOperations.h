@@ -20,6 +20,7 @@ public:
 	void colorReduceIterator(int div);
 	void sharpen();
 	void sharpen2D() const;
+	void wave() const;
 
 private:
 	static ImageOperations* inst_;
